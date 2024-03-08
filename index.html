@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <script src="d3.js"></script>
+</head>
+<body>
+    <div id="chart"></div>
+	<script src="charts.js"></script>
+
+    <div id="chart"></div>
+
+<script>
+
+    // set1 - 4 datasets
+    var set1 = [{x:10,y:8.04},{x:8,y:6.95},{x:13,y:7.58},{x:9,y:8.81},{x:11,y:8.33},{x:14,y:9.96},{x:6,y:7.24},{x:4,y:4.26},{x:12,y:10.84},{x:7,y:4.82},{x:5,y:5.68}]
+    var set2 = [{x:10,y:9.14},{x:8,y:8.14},{x:13,y:8.74},{x:9,y:8.77},{x:11,y:9.26},{x:14,y:8.1},{x:6,y:6.13},{x:4,y:3.1},{x:12,y:9.13},{x:7,y:7.26},{x:5,y:4.74}]
+    var set3 = [{x:10,y:7.46},{x:8,y:6.77},{x:13,y:12.74},{x:9,y:7.11},{x:11,y:7.81},{x:14,y:8.84},{x:6,y:6.08},{x:4,y:5.39},{x:12,y:8.15},{x:7,y:6.42},{x:5,y:5.73}]
+    var set4 = [{x:8,y:6.58},{x:8,y:5.76},{x:8,y:7.71},{x:8,y:8.84},{x:8,y:8.47},{x:8,y:7.04},{x:8,y:5.25},{x:19,y:12.5},{x:8,y:5.56},{x:8,y:7.91},{x:8,y:6.89}]
+
+    // Barchart Step 1
+    // Start by creating a function called barcharts, which takes 1 input - a dataset variable.
+    // run this function right away with the variable set1. This function call can be above or below the function declaration.
+    function barChart(set1,columnInUse,fillColor){
+         var svg = d3.select("#chart")
+         .append("svg")
+         .attr("width",400)
+         .attr("height",400)
+
+    // Barchart Step 2
+    // use the d3 syntax for chaining elements and data together - select, data, enter, append. This time we are appending a “rect” for rectangle.
+      // Barchart Step 4
+      var yScale = d3.scaleLinear().domain([0,20]).range([0,300])
+    
+    
+    svg.selectAll("rect")
+        .data(set1)
+        .enter()
+        .append("rect")
+        .attr("fill",fillColor)
+
+    // Barchart Step 3
+    // Let’s set attributes with our data. The necessary attributes in a “rect” element are x, y, width, and height. A rect is drawn from the left upper corner of the coordinate system. 
+    .attr("height",function(d){
+       return yScale(d.x)
+   })
+   
+    .attr("width",10)
+    .attr("x",function(d,i){
+     return i*10
+   })
+    .attr("y",0)
+  
+   // Barchart Step 5
+   // We now have a full size bar chart that is upside down. To get the right position, let’s think through the coordinate system a bit. The rectangles are drawn from the top down, but we want to look as if they are bottom up. It is pretty straightforward if we think about this. If we want a bar that is 2 pixels high at the bottom of a 3 pixel high canvas, then we would need to figure out how far down to start the bar, which would be 3-2 in this case, the height of the canvas minus the height of the bar. So let’s do that in our code. 
+    .attr("y",0)
+    .attr("y",function(d){
+       return 300-yScale(d.x)
+   })
+
+   svg.append("text").text(columnInUse).attr("x",10).attr("y",10)
+
+
+    }
+
+   
+
+
+
+   // Barchart Step 6
+   // We have so far built this inside a function, and we can change our data between any of the sets we have by simply calling the function again with a different variable input.
+   barChart(set1,"set1","red")
+   barChart(set2,"set2","blue")
+   barChart(set3,"set3","gold")
+   barChart(set4,"set4","green")
+
+   // Barchart Step 7
+   // To create a barchart for the y values, we can make another function, or we can expand the flexibility of our current function by adding another input to our existing function.
+
+   // Barchart Step 8
+
+//    barChart(set1,"x","purple")
+//    barChart(set1,"y","grey")
+
+   // Barchart Step 9
+   // Along those lines we can also pass different inputs to extinguish between the 2 charts as well, using the same function. Let’s try a color.
+//    function barChart(data,columnInUse, fillColor){
+//     .attr("fill",fillColor)
+//     barChart(set1,"x","red")
+//     }
+//     barChart(set1,"y","blue")
+
+
+
+
+</script>
+
+</body>
+</html>
